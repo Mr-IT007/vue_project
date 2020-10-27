@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/css/global.css'
+import VueParticles from 'vue-particles'
 
 Vue.use(ElementUI)
+Vue.use(VueParticles)
 Vue.config.productionTip = false
 
 new Vue({
