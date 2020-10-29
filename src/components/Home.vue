@@ -138,6 +138,7 @@ export default {
     justify-content: space-between;
     padding-left: 10px;
     align-items: center;
+    /*box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.15);*/
   }
 
   .el-aside {
@@ -150,6 +151,7 @@ export default {
 
   .el-main {
     background-color: #eaedf1;
+    /*padding: 20px 20px 0 20px;*/
     /*padding: 0;*/
   }
 
