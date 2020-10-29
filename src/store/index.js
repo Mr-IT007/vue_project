@@ -3,13 +3,27 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
+    data: {
+      token: '',
+      menuArray: []
+    }
   },
   mutations: {
+    updateData (state, payload) {
+      state.data.token = payload.token
+      state.data.menuArray = payload.menuArray
+    }
   },
   actions: {
-  },
-  modules: {
+    updateDataAsync (context, payload) {
+      // console.log(payload)
+      context.commit('updateData', payload)
+    }
   }
+  // modules: {
+  // }
 })
+
+export default store

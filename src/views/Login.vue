@@ -43,15 +43,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Login',
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'jimmy',
+        password: '123456'
       },
       loginRules: {
         // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -69,12 +69,12 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const path = 'http://172.16.30.173:5000/api/v1/login'
+          const path = '/login'
           const payload = {
             account: this.loginForm.username,
             password: this.loginForm.password
           }
-          axios({
+          this.$http({
             method: 'post',
             headers: {
               'Content-Type': 'application/json;charset=utf-8'
@@ -82,20 +82,23 @@ export default {
             url: path,
             data: payload
           }).then(response => {
-            const getData = response.data
-            console.log(getData)
-            console.log(response)
+            // console.log(this.$store.state.token)
+            // console.log(getData)
+            // console.log(response)
             if (response.status === 200) {
+              const getData = response.data
               window.sessionStorage.setItem('token', getData.token)
+              // this.$store.dispatch('updateDataAsync', getData.data)
               this.loading = false
-              this.$notify({
-                title: '登录成功',
-                // message: '这是一条成功的提示消息',
-                type: 'success'
-              })
+              // this.$notify({
+              //   title: '登录成功',
+              //   // message: '这是一条成功的提示消息',
+              //   type: 'success'
+              // })
               this.$router.push('/home')
             }
           }).catch(error => {
+            // console.log(this.$store)
             console.log(error)
             this.$notify.error({
               title: '登录失败',
@@ -111,7 +114,7 @@ export default {
       })
     },
     handleTest () {
-      axios({
+      this.$http({
         method: 'get',
         url: 'http://172.16.30.173:5000/api/v1/test',
         // headers: {
