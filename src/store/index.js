@@ -5,21 +5,26 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    data: {
-      token: '',
-      menuArray: []
-    }
+    token: '',
+    menuArray: [],
+    activeTab: '云主机',
+    activePath: ''
   },
   mutations: {
-    updateData (state, payload) {
-      state.data.token = payload.token
-      state.data.menuArray = payload.menuArray
+    updateTabData (state, payload) {
+      state.activeTab = payload
+    },
+    updateActivePath (state, payload) {
+      state.activePath = payload
     }
   },
   actions: {
-    updateDataAsync (context, payload) {
+    updateTabDataAsync (context, payload) {
       // console.log(payload)
-      context.commit('updateData', payload)
+      context.commit('updateTabData', payload)
+    },
+    updateActivePathAsync (context, payload) {
+      context.commit('updateActivePath', payload)
     }
   }
   // modules: {

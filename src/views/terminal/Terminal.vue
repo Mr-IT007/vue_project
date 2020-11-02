@@ -1,24 +1,12 @@
 <template>
-  <el-tabs type="border-card">
-    <el-tab-pane label="云主机">
+  <el-tabs type="border-card" v-model="activeTab">
+    <el-tab-pane label="云主机" name="云主机">
       <div class="search-main">
         <div>
-          <el-button size="small" :disabled="!multipleSelection.length">部署策略</el-button>
-          <el-button size="small" :disabled="!multipleSelection.length">分配到组</el-button>
+          <el-button type="primary" size="small" :disabled="!multipleSelection.length">部署策略</el-button>
+          <el-button type="primary" size="small" :disabled="!multipleSelection.length">分配到组</el-button>
         </div>
         <div class="search-input">
-          <!--<el-select v-model="value" size="small" style="width: 120px" value="">-->
-            <!--<el-option-->
-              <!--v-for="item in options"-->
-              <!--:key="item.value"-->
-              <!--:label="item.label"-->
-              <!--:value="item.value">-->
-            <!--</el-option>-->
-          <!--</el-select>-->
-          <!--<el-input v-model="input" placeholder="请输入关键字" size="small" style="width: 200px"></el-input>-->
-          <!--<el-button type="primary" icon="el-icon-search" size="small"></el-button>-->
-          <!--<el-button size="small" style="margin-left: 10px" @click="dialogVisible = true">高级搜索<i class="el-icon-caret-bottom"></i></el-button>-->
-          <!--<el-button size="small" style="margin-left: 10px; margin-right: 0"><i class="el-icon-refresh"></i></el-button>-->
           <div class="input-select">
             <el-input placeholder="输入关键字" v-model="input" size="small">
               <el-select v-model="value" slot="prepend" placeholder="请选择" style="width: 120px">
@@ -54,7 +42,7 @@
       </el-dialog>
       <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="cloudHostData"
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
@@ -68,59 +56,26 @@
         >
         </el-table-column>
         <el-table-column
+          prop="host_name"
+          label="主机名称"
+          width="100"
+          align="center"
+          header-align="center">
+        </el-table-column>
+        <el-table-column
           prop="agent_id"
           label="Agent ID"
           align="center"
+          header-align="center"
           show-overflow-tooltip
-          header-align="center">
-          <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
-        </el-table-column>
+        />
         <el-table-column
           prop="ip"
           label="IP"
+          width="200"
           align="center"
           header-align="center"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="os"
-          label="操作系统"
-          align="center"
-          header-align="center"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-        prop="agent_status"
-        label="Agent状态"
-        width="100"
-        align="center"
-        header-align="center"
-        >
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              :type="scope.row.agent_status === 'ok'? 'success': 'info'"
-              :icon="scope.row.agent_status === 'ok'? 'el-icon-check': 'el-icon-close'"
-              circle
-            />
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="server_status"
-          label="服务器状态"
-          width="100"
-          align="center"
-          header-align="center"
-        >
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              :type="scope.row.server_status === 'ok'? 'success': 'info'"
-              :icon="scope.row.server_status === 'ok'? 'el-icon-check': 'el-icon-close'"
-              circle
-            />
-          </template>
-        </el-table-column>
+        />
         <el-table-column
           prop="res"
           label="检测结果"
@@ -133,8 +88,156 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="version"
-          label="版本"
+          prop="os"
+          label="操作系统"
+          width="100"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="agent_status"
+          label="Agent状态"
+          width="100"
+          align="center"
+          header-align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              :type="scope.row.agent_status === 'ok'? 'success': 'info'"
+              :icon="scope.row.agent_status === 'ok'? 'el-icon-check': 'el-icon-close'"
+              circle
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="server_group"
+          label="服务器组"
+          width="100"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          width="200"
+          label="操作"
+          align="center"
+          header-align="center">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              :type="scope.row.res === '有风险'? 'danger': 'primary'"
+              plain
+              icon="el-icon-s-order"
+              @click="handleDetail(scope.$index, scope.row)">详情</el-button>
+            <el-button
+              size="mini"
+              :type="scope.row.res === '有风险'? 'danger': 'primary'"
+              plain
+              icon="el-icon-s-tools"
+              @click="handleDetail(scope.$index, scope.row)">配置</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-tab-pane>
+    <el-tab-pane label="虚拟机" name="虚拟机">
+      <div class="search-main">
+        <div></div>
+        <div class="search-input">
+          <div class="input-select">
+            <el-input placeholder="输入关键字" v-model="input" size="small">
+              <el-select v-model="value" slot="prepend" placeholder="请选择" style="width: 120px">
+                <el-option label="服务器名称" value="1"></el-option>
+                <el-option label="IP地址" value="2"></el-option>
+              </el-select>
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+          </div>
+          <div>
+            <el-button size="small" style="margin-left: 10px" @click="dialogVisible = true">高级搜索<i class="el-icon-caret-bottom"></i></el-button>
+            <el-button size="small" style="margin-left: 10px; margin-right: 0"><i class="el-icon-refresh"></i></el-button>
+          </div>
+        </div>
+      </div>
+      <el-table
+        :data="vmData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+        :cell-style="{ 'font-weight': 300 }">
+        <el-table-column
+          prop="host_ip"
+          label="所属主机IP"
+          align="center"
+          width="200"
+          header-align="center">
+          <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
+        </el-table-column>
+        <el-table-column
+          prop="host_id"
+          label="所属主机ID"
+          align="center"
+          header-align="center"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          prop="vm_name"
+          label="虚拟机名称"
+          width="100"
+          align="center"
+          header-align="center">
+        </el-table-column>
+        <el-table-column
+          prop="agent_id"
+          label="Agent ID"
+          align="center"
+          header-align="center"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          prop="ip"
+          label="IP"
+          width="200"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="res"
+          label="检测结果"
+          width="100"
+          align="center"
+          header-align="center"
+        >
+          <template slot-scope="scope">
+            <span :class="scope.row.res === '有风险'? 'chFtColor': ''">{{ scope.row.res }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="os"
+          label="操作系统"
+          width="100"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="agent_status"
+          label="Agent状态"
+          width="100"
+          align="center"
+          header-align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              :type="scope.row.agent_status === 'ok'? 'success': 'info'"
+              :icon="scope.row.agent_status === 'ok'? 'el-icon-check': 'el-icon-close'"
+              circle
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="server_group"
+          label="服务器组"
           width="100"
           align="center"
           header-align="center"
@@ -148,13 +251,71 @@
             <el-button
               size="mini"
               :type="scope.row.res === '有风险'? 'danger': 'primary'"
+              plain
+              icon="el-icon-s-order"
               @click="handleDetail(scope.$index, scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="虚拟机">虚拟机</el-tab-pane>
-    <el-tab-pane label="分组">分组</el-tab-pane>
+    <el-tab-pane label="分组" name="分组">
+      <div class="search-main">
+        <div>
+          <el-button type="primary" size="small">创建服务器组</el-button>
+        </div>
+        <div class="search-input">
+          <div class="input-select">
+            <el-input placeholder="输入服务器组名" v-model="input" size="small">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+          </div>
+          <div>
+            <el-button size="small" style="margin-left: 10px; margin-right: 0"><i class="el-icon-refresh"></i></el-button>
+          </div>
+        </div>
+      </div>
+      <el-table
+        :data="groupData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+        :cell-style="{ 'font-weight': 300 }"
+      >
+        <el-table-column
+          prop="server_group"
+          label="服务器组"
+          align="center"
+          show-overflow-tooltip
+          header-align="center">
+        </el-table-column>
+        <el-table-column
+          prop="server_counts"
+          label="云主机数量"
+          align="center"
+          header-align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="vm_counts"
+          label="虚拟机数量"
+          align="center"
+          header-align="center"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          prop="risk_server"
+          label="有风险云主机数量"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="risk_vm"
+          label="有风险虚拟机数量"
+          align="center"
+          header-align="center"
+        />
+      </el-table>
+    </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -163,60 +324,202 @@ export default {
   name: 'Terminal',
   data () {
     return {
-      tableData: [{
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'Linux',
-        server_status: 'ok',
-        agent_status: 'ok',
-        res: '有风险',
-        version: '旗舰版'
-      },
-      {
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'Linux',
-        server_status: 'off',
-        agent_status: 'off',
-        res: '无风险',
-        version: '专业版'
-      },
-      {
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'Ubuntu',
-        server_status: 'ok',
-        agent_status: 'ok',
-        res: '有风险',
-        version: '普通版'
-      },
-      {
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'CentOS',
-        server_status: 'off',
-        agent_status: 'off',
-        res: '无风险',
-        version: '旗舰版'
-      },
-      {
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'RedHat',
-        server_status: 'ok',
-        agent_status: 'ok',
-        res: '有风险',
-        version: '旗舰版'
-      },
-      {
-        agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        ip: 'xxx.xx.xx.xxx',
-        os: 'Linux',
-        server_status: 'ok',
-        agent_status: 'ok',
-        res: '无风险',
-        version: '专业版'
-      }
+      activeTab: this.$store.state.activeTab,
+      cloudHostData: [
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'B'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Ubuntu',
+          agent_status: 'ok',
+          res: '有风险',
+          server_group: 'B'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'CentOS',
+          agent_status: 'off',
+          res: '有风险',
+          server_group: 'C'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'RedHat',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'A'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'B'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Ubuntu',
+          agent_status: 'off',
+          res: '无风险',
+          server_group: 'C'
+        },
+        {
+          host_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '有风险',
+          server_group: 'D'
+        }
+      ],
+      groupData: [
+        {
+          server_group: 'A',
+          server_counts: 2,
+          vm_counts: 3,
+          risk_server: 1,
+          risk_vm: 1
+        },
+        {
+          server_group: 'B',
+          server_counts: 2,
+          vm_counts: 2,
+          risk_server: 0,
+          risk_vm: 1
+        },
+        {
+          server_group: 'C',
+          server_counts: 1,
+          vm_counts: 2,
+          risk_server: 0,
+          risk_vm: 0
+        },
+        {
+          server_group: 'D',
+          server_counts: 3,
+          vm_counts: 1,
+          risk_server: 1,
+          risk_vm: 0
+        }
+      ],
+      vmData: [
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'A'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Ubuntu',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'B'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'CentOS',
+          agent_status: 'off',
+          res: '有风险',
+          server_group: 'D'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'RedHat',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'C'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '有风险',
+          server_group: 'B'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Ubuntu',
+          agent_status: 'off',
+          res: '有风险',
+          server_group: 'C'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'Linux',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'D'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'CentOS',
+          agent_status: 'ok',
+          res: '无风险',
+          server_group: 'A'
+        },
+        {
+          host_ip: 'xxx.xx.xx.xxx',
+          host_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          vm_name: 'xxxx',
+          agent_id: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xx.xx.xxx',
+          os: 'RetHat',
+          agent_status: 'off',
+          res: '有风险',
+          server_group: 'A'
+        }
       ],
       multipleSelection: [],
       options: [{

@@ -50,7 +50,12 @@
           <div class="toggle-btn" @click="toggleCollapse">
             <i :class="isCollapse? 'el-icon-s-unfold': 'el-icon-s-fold'"></i>
           </div>
-          <el-dropdown trigger="click" @command="handleCommand">
+          <el-breadcrumb separator="/" style="margin-left: 20px">
+            <el-breadcrumb-item :to="{ path: '/overview' }" @click.native.prevent="breadClick">首页</el-breadcrumb-item>
+<!--            <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>-->
+            <el-breadcrumb-item>{{ breadHead }}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <el-dropdown trigger="click" @command="handleCommand" style="right: 20px; position: absolute">
             <el-button type="info" icon="el-icon-user-solid" circle></el-button>
             <i class="el-icon-arrow-down el-icon--right" id="arrow-down"></i>
             <el-dropdown-menu slot="dropdown">
@@ -61,7 +66,7 @@
           </el-dropdown>
         </el-header>
         <el-main>
-          <router-view/>
+          <router-view @getActivePath="getPath" @getCurrentBread="getBread"/>
         </el-main>
       </el-container>
     </el-container>
@@ -79,10 +84,17 @@ export default {
       // menuData: this.$store.state.data.menuArray,
       menuData: [],
       isCollapse: false,
-      activePath: '/overview'
+      activePath: '/overview',
+      breadHead: '主机概览'
     }
   },
   methods: {
+    getPath (val) {
+      this.activePath = val
+    },
+    getBread (val) {
+      this.breadHead = val
+    },
     handleCommand (command) {
       if (command === 'logout') {
         window.sessionStorage.clear()
@@ -97,6 +109,10 @@ export default {
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
     },
+    breadClick () {
+      // console.log('6666666')
+      this.activePath = '/overview'
+    },
     getMenuData () {
       this.$http.get('/menu').then(res => {
         if (res.status === 200) {
@@ -107,11 +123,25 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+        this.$confirm('登录已超时，请重新登录！', '会话过期', {
+          showCancelButton: false,
+          confirmButtonText: '确定',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push('/login')
+        })
       })
     },
     saveNavPath () {
       // window.sessionStorage.setItem('activePath', path)
       // console.log(this.$route.path)
+      const pathHead = {
+        '/terminal': '终端管理',
+        '/overview': '主机概览',
+        '/thread': '威胁警告',
+        '/rescenter': '响应中心'
+      }
+      this.breadHead = pathHead[this.$route.path]
       this.activePath = this.$route.path
     }
   }
@@ -135,7 +165,7 @@ export default {
     /*align-items: center;*/
     /*padding: 0;*/
     display: flex;
-    justify-content: space-between;
+    //justify-content: space-between;
     padding-left: 10px;
     align-items: center;
     /*box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.15);*/
