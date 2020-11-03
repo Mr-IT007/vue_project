@@ -53,6 +53,7 @@
           <el-breadcrumb separator="/" style="margin-left: 20px">
             <el-breadcrumb-item :to="{ path: '/overview' }" @click.native.prevent="breadClick">首页</el-breadcrumb-item>
 <!--            <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>-->
+<!--            <el-breadcrumb-item v-for="(item, index) in this.breadHead" :key="index">{{ item }}</el-breadcrumb-item>-->
             <el-breadcrumb-item>{{ breadHead }}</el-breadcrumb-item>
           </el-breadcrumb>
           <el-dropdown trigger="click" @command="handleCommand" style="right: 20px; position: absolute">
@@ -86,6 +87,7 @@ export default {
       isCollapse: false,
       activePath: '/overview',
       breadHead: '主机概览'
+      // breadHead: this.$store.state.breadHead
     }
   },
   methods: {
@@ -138,8 +140,8 @@ export default {
       const pathHead = {
         '/terminal': '终端管理',
         '/overview': '主机概览',
-        '/thread': '威胁警告',
-        '/rescenter': '响应中心'
+        '/thread': '风险预防',
+        '/protect': '高级防御'
       }
       this.breadHead = pathHead[this.$route.path]
       this.activePath = this.$route.path

@@ -8,7 +8,8 @@ const store = new Vuex.Store({
     token: '',
     menuArray: [],
     activeTab: '云主机',
-    activePath: ''
+    activePath: '',
+    breadHead: ['主机概览']
   },
   mutations: {
     updateTabData (state, payload) {
@@ -16,6 +17,9 @@ const store = new Vuex.Store({
     },
     updateActivePath (state, payload) {
       state.activePath = payload
+    },
+    updateBreadHead (state, payload) {
+      state.breadHead = payload
     }
   },
   actions: {
@@ -25,6 +29,9 @@ const store = new Vuex.Store({
     },
     updateActivePathAsync (context, payload) {
       context.commit('updateActivePath', payload)
+    },
+    updateBreadHeadAsync (context, payload) {
+      context.commit('updateBreadHead', payload)
     }
   }
   // modules: {

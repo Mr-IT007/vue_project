@@ -1,17 +1,17 @@
 <template>
-  <div class="rescenter">
-    <h1>响应中心页面</h1>
+  <div class="protect">
+    <h1>高级防御</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ResCenter'
+  name: 'Protect'
 }
 </script>
 
 <style scoped>
-  .rescenter {
+  .protect {
     text-align: center;
     padding-top: 100px;
   }

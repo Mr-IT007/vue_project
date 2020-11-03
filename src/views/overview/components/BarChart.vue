@@ -89,21 +89,21 @@ export default {
           name: '风险A',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
+          barWidth: '40%',
           data: [79, 52, 200, 334, 390]
           // animationDuration
         }, {
           name: '风险B',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
+          barWidth: '40%',
           data: [80, 52, 200, 300, 350]
           // animationDuration
         }, {
           name: '风险C',
           type: 'bar',
           stack: 'vistors',
-          barWidth: '60%',
+          barWidth: '40%',
           data: [30, 150, 200, 350, 300]
           // animationDuration
         }]

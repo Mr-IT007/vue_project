@@ -4,8 +4,9 @@ import Login from '../views/Login'
 import Home from '../components/Home'
 import Overview from '../views/overview/Overview'
 import Terminal from '../views/terminal/Terminal'
-import ResCenter from '../views/rescenter/ResCenter'
+import Protect from '../views/protect/Protect'
 import Thread from '../views/thread/Thread'
+import Warning from '@/views/warning/Warning'
 // import store from '../store'
 
 Vue.use(VueRouter)
@@ -37,14 +38,19 @@ const routes = [
         component: Terminal
       },
       {
-        path: '/rescenter',
-        name: 'ResCenter',
-        component: ResCenter
+        path: '/protect',
+        name: 'Protect',
+        component: Protect
       },
       {
         path: '/thread',
         name: 'Thread',
         component: Thread
+      },
+      {
+        path: '/warning',
+        name: 'Warning',
+        component: Warning
       }
     ]
   }

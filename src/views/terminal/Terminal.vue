@@ -46,7 +46,7 @@
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-        :cell-style="{ 'font-weight': 300 }"
+        :cell-style="{ 'font-weight': 400 }"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -84,7 +84,9 @@
           header-align="center"
         >
           <template slot-scope="scope">
-            <span :class="scope.row.res === '有风险'? 'chFtColor': ''">{{ scope.row.res }}</span>
+            <el-link v-if="scope.row.res === '有风险'" type="danger" :underline="false" @click="warningDetail">{{ scope.row.res }}</el-link>
+            <span v-else>{{ scope.row.res }}</span>
+<!--            <span :class="scope.row.res === '有风险'? 'chFtColor': ''">{{ scope.row.res }}</span>-->
           </template>
         </el-table-column>
         <el-table-column
@@ -163,7 +165,7 @@
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-        :cell-style="{ 'font-weight': 300 }">
+        :cell-style="{ 'font-weight': 400 }">
         <el-table-column
           prop="host_ip"
           label="所属主机IP"
@@ -209,7 +211,9 @@
           header-align="center"
         >
           <template slot-scope="scope">
-            <span :class="scope.row.res === '有风险'? 'chFtColor': ''">{{ scope.row.res }}</span>
+            <el-link v-if="scope.row.res === '有风险'" type="danger" :underline="false" @click="warningDetail">{{ scope.row.res }}</el-link>
+            <span v-else>{{ scope.row.res }}</span>
+<!--            <span :class="scope.row.res === '有风险'? 'chFtColor': ''">{{ scope.row.res }}</span>-->
           </template>
         </el-table-column>
         <el-table-column
@@ -261,7 +265,7 @@
     <el-tab-pane label="分组" name="分组">
       <div class="search-main">
         <div>
-          <el-button type="primary" size="small">创建服务器组</el-button>
+          <el-button type="primary" size="small" @click.native.prevent="createGroup">创建服务器组</el-button>
         </div>
         <div class="search-input">
           <div class="input-select">
@@ -279,7 +283,7 @@
         tooltip-effect="dark"
         style="width: 100%"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-        :cell-style="{ 'font-weight': 300 }"
+        :cell-style="{ 'font-weight': 400 }"
       >
         <el-table-column
           prop="server_group"
@@ -522,13 +526,16 @@ export default {
         }
       ],
       multipleSelection: [],
-      options: [{
-        value: '服务器名称',
-        label: '服务器名称'
-      }, {
-        value: 'IP地址',
-        label: 'IP地址'
-      }],
+      options: [
+        {
+          value: '服务器名称',
+          label: '服务器名称'
+        },
+        {
+          value: 'IP地址',
+          label: 'IP地址'
+        }
+      ],
       value: '服务器名称',
       input: '',
       dialogVisible: false,
@@ -546,6 +553,14 @@ export default {
     },
     handleDetail (index, row) {
       this.detailVisible = true
+    },
+    warningDetail () {
+      this.$router.push('/thread')
+      this.$emit('getActivePath', '/thread')
+      this.$emit('getCurrentBread', '风险预防')
+    },
+    createGroup () {
+      console.log('create')
     }
   }
 }

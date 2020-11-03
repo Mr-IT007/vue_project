@@ -134,6 +134,98 @@
         </div>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col>
+        <div class="chart-wrapper">
+          <div style="padding: 0 16px; font-size: 25px; margin-bottom: 16px">
+            实时入侵事件
+          </div>
+          <el-table
+            :data="hackData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+            :cell-style="{ 'font-weight': 400 }"
+          >
+            <el-table-column
+              prop="warning_name"
+              width="200"
+              label="告警名称"
+              align="center"
+              header-align="center">
+              <template slot-scope="scope">
+                <el-link type="primary" :underline="false" @click="hackDeal(scope.$index, scope.row)">{{ scope.row.warning_name }}</el-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="affected_server"
+              label="受影响的服务器"
+              align="center"
+              header-align="center"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              prop="server_type"
+              width="100"
+              label="服务器类型"
+              align="center"
+              header-align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="content"
+              label="简述"
+              align="center"
+              header-align="center"
+              show-overflow-tooltip
+            />
+            <el-table-column
+              prop="happened"
+              width="150"
+              label="发生时间"
+              align="center"
+              header-align="center"
+            />
+            <el-table-column
+              prop="dealt"
+              width="150"
+              label="解决时间"
+              align="center"
+              header-align="center"
+            />
+            <el-table-column
+              prop="status"
+              width="100"
+              label="状态"
+              align="center"
+              header-align="center"
+            />
+            <el-table-column
+              prop="disposal"
+              width="150"
+              label="处理方式"
+              align="center"
+              header-align="center"
+            />
+            <el-table-column
+              width="100"
+              label="操作"
+              align="center"
+              header-align="center">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="primary"
+                  plain
+                  icon="el-icon-s-cooperation"
+                  @click="handleDisposal(scope.$index, scope.row)">处理</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -155,7 +247,106 @@ export default {
     // PanelGroup
     CountTo
   },
+  data () {
+    return {
+      hackData: [
+        {
+          warning_name: '账户暴力破解',
+          affected_server: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          server_type: '云主机',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          happened: 'xxxx-xx-xx xx:xx:xx',
+          dealt: 'xxxx-xx-xx xx:xx:xx',
+          status: '未处理',
+          disposal: null
+        },
+        {
+          warning_name: '账户暴力破解',
+          affected_server: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          server_type: '虚拟机',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          happened: 'xxxx-xx-xx xx:xx:xx',
+          dealt: 'xxxx-xx-xx xx:xx:xx',
+          status: '未处理',
+          disposal: null
+        },
+        {
+          warning_name: '账户暴力破解',
+          affected_server: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          server_type: '云主机',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          happened: 'xxxx-xx-xx xx:xx:xx',
+          dealt: 'xxxx-xx-xx xx:xx:xx',
+          status: '未处理',
+          disposal: null
+        },
+        {
+          warning_name: '账户暴力破解',
+          affected_server: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          server_type: '云主机',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          happened: 'xxxx-xx-xx xx:xx:xx',
+          dealt: 'xxxx-xx-xx xx:xx:xx',
+          status: '未处理',
+          disposal: null
+        },
+        {
+          warning_name: '账户暴力破解',
+          affected_server: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          server_type: '云主机',
+          content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+          happened: 'xxxx-xx-xx xx:xx:xx',
+          dealt: 'xxxx-xx-xx xx:xx:xx',
+          status: '未处理',
+          disposal: null
+        }
+      ]
+    }
+  },
   methods: {
+    hackDeal (index, row) {
+      const h = this.$createElement
+      this.$msgbox({
+        title: row.warning_name,
+        message: h('div', null, [
+          h('p', null, [
+            h('span', null, '服务器名称： '),
+            h('span', null, row.affected_server)
+          ]),
+          h('br'),
+          h('p', null, [
+            h('span', null, 'IP地址： '),
+            h('span', null, 'xxx.xx.xx.xxx')
+          ]),
+          h('br'),
+          h('p', null, [
+            h('span', null, '攻击源IP： '),
+            h('span', null, 'xxx.xx.xx.xxx')
+          ]),
+          h('br'),
+          h('p', null, [
+            h('span', null, '攻击类型： '),
+            h('span', null, 'ssh')
+          ]),
+          h('br'),
+          h('p', null, [
+            h('span', null, '尝试破解次数： '),
+            h('span', null, 15)
+          ]),
+          h('br'),
+          h('p', null, [
+            h('span', null, '状态： '),
+            h('span', null, row.status ? '已处理' : '未处理')
+          ])
+        ]),
+        confirmButtonText: '处理'
+      }).then(action => {
+        this.$message({
+          type: 'info',
+          message: row.server_type
+        })
+      })
+    },
     vmNumLink () {
       this.$router.push('/terminal')
       // console.log(this.$store.state.activeTab)

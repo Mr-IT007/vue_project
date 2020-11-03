@@ -102,14 +102,14 @@
                 label="操作"
                 align="center"
                 header-align="center">
-                <!--                <template slot-scope="scope">-->
-                <!--                  <el-button-->
-                <!--                    size="mini"-->
-                <!--                    type="primary"-->
-                <!--                    plain-->
-                <!--                    icon="el-icon-s-cooperation"-->
-                <!--                    @click="handleDisposal(scope.$index, scope.row)">处理</el-button>-->
-                <!--                </template>-->
+<!--                <template slot-scope="scope">-->
+<!--                  <el-button-->
+<!--                    size="mini"-->
+<!--                    type="primary"-->
+<!--                    plain-->
+<!--                    icon="el-icon-s-cooperation"-->
+<!--                    @click="handleDisposal(scope.$index, scope.row)">处理</el-button>-->
+<!--                </template>-->
               </el-table-column>
             </el-table>
           </el-tab-pane>
@@ -807,7 +807,7 @@
 
 <script>
 export default {
-  name: 'Thread',
+  name: 'Warning',
   data () {
     return {
       value: '全部',
@@ -1402,30 +1402,30 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.warning-container {
-  background-color: #fff;
+  .warning-container {
+    background-color: #fff;
 
-  .el-tabs {
-    padding: 20px;
+    .el-tabs {
+      padding: 20px;
+    }
   }
-}
 
-.warning-search {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-  align-items: center;
-}
+  .warning-search {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    align-items: center;
+  }
 
-.el-button--small, .el-button--small.is-round {
-  padding: 9px 10px;
-}
+  .el-button--small, .el-button--small.is-round {
+    padding: 9px 10px;
+  }
 
-.port-color {
-  color: red;
-}
+  .port-color {
+    color: red;
+  }
 
-.scan-res {
-  color: red;
-}
+  .scan-res {
+    color: red;
+  }
 </style>
