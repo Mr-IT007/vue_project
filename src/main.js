@@ -9,7 +9,7 @@ import VueParticles from 'vue-particles'
 import axios from 'axios'
 
 // axios.defaults.baseURL = 'http://172.16.30.173:5000/api/v1'
-axios.defaults.baseURL = 'http://127.0.0.1:5000/api/v1'
+// axios.defaults.baseURL = 'http://127.0.0.1:5000/api/v1'
 // 请求拦截器在请求头中添加验证token的字段
 axios.interceptors.request.use(config => {
   const tokenStr = 'Bearer ' + window.sessionStorage.getItem('token')

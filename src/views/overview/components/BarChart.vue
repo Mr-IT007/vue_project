@@ -53,15 +53,15 @@ export default {
             type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
-        title: {
-          text: 'TOP5风险主机',
-          textStyle: {
-            fontSize: 25,
-            color: 'black'
-          }
-        },
+        // title: {
+        //   text: 'TOP5风险主机',
+        //   textStyle: {
+        //     fontSize: 25,
+        //     color: 'black'
+        //   }
+        // },
         grid: {
-          top: '20%',
+          // top: '20%',
           left: 10,
           right: 10,
           // bottom: '3%',
@@ -82,8 +82,8 @@ export default {
         }],
         legend: {
           data: ['风险A', '风险B', '风险C'],
-          left: 'center',
-          bottom: '10'
+          left: 'center'
+          // bottom: '10'
         },
         series: [{
           name: '风险A',

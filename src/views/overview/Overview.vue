@@ -8,47 +8,81 @@
               <div class="inner-text-1">
                 资产风险
                 <div class="inner-number" style="font-size: 30px; color: #526ecc; font-weight: bold">
-                  <count-to :start-val="0" :end-val="20" :duration="2600"/>
+                  <el-link style="font-size: 30px; font-weight: 500; color: #526ecc" @click="assetRiskLink">
+                    <count-to :start-val="0" :end-val="assetRiskNum" :duration="2600"/>
+                  </el-link>
                   <div style="font-size: 15px; color: black; font-weight: normal; align-self: center; margin-left: 5px">个</div>
                 </div>
-                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">较昨日 <i class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
-                  <div style="color: #1989fa; margin-left: 5px">持平</div>
+                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">
+                  较昨日
+                  <i v-if="assetRiskState === '持平'" class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
+                  <i v-else-if="assetRiskState === '上升'" class="el-icon-top" style="color: #f56c6c; margin-left: 5px"></i>
+                  <i v-else class="el-icon-bottom" style="color: #67c23a; margin-left: 5px"></i>
+                  <div v-if="assetRiskState === '持平'" style="color: #1989fa; margin-left: 5px">{{ assetRiskState }}</div>
+                  <div v-else-if="assetRiskState === '上升'" style="color: #f56c6c; margin-left: 5px">{{ assetRiskState }}</div>
+                  <div v-else style="color: #67c23a; margin-left: 5px">{{ assetRiskState }}</div>
                 </div>
               </div>
               <div class="inner-text-1">
                 基线检查
                 <div class="inner-number" style="font-size: 30px; color: #526ecc; font-weight: bold">
-                  <count-to :start-val="0" :end-val="18" :duration="2600"/>
+                  <el-link style="font-size: 30px; font-weight: 500; color: #526ecc" @click="baseCheckLink">
+                    <count-to :start-val="0" :end-val="baseCheckNum" :duration="2600"/>
+                  </el-link>
                   <div style="font-size: 15px; color: black; font-weight: normal; align-self: center; margin-left: 5px">个</div>
                 </div>
-                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">较昨日 <i class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
-                  <div style="color: #1989fa; margin-left: 5px">持平</div>
+                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">
+                  较昨日
+                  <i v-if="baseCheckState === '持平'" class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
+                  <i v-else-if="baseCheckState === '上升'" class="el-icon-top" style="color: #f56c6c; margin-left: 5px"></i>
+                  <i v-else class="el-icon-bottom" style="color: #67c23a; margin-left: 5px"></i>
+                  <div v-if="baseCheckState === '持平'" style="color: #1989fa; margin-left: 5px">{{ baseCheckState }}</div>
+                  <div v-else-if="baseCheckState === '上升'" style="color: #f56c6c; margin-left: 5px">{{ baseCheckState }}</div>
+                  <div v-else style="color: #67c23a; margin-left: 5px">{{ baseCheckState }}</div>
                 </div>
               </div>
               <div class="inner-text-1">
                 入侵检测
                 <div class="inner-number" style="font-size: 30px; color: #526ecc; font-weight: bold">
-                  <count-to :start-val="0" :end-val="15" :duration="2600"/>
+                  <el-link style="font-size: 30px; font-weight: 500; color: #526ecc" @click="hackCheckLink">
+                    <count-to :start-val="0" :end-val="hackCheckNum" :duration="2600"/>
+                  </el-link>
                   <div style="font-size: 15px; color: black; font-weight: normal; align-self: center; margin-left: 5px">个</div>
                 </div>
-                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">较昨日 <i class="el-icon-top" style="color: #f56c6c; margin-left: 5px"></i>
-                  <div style="color: #f56c6c; margin-left: 5px">升高</div>
+                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">
+                  较昨日
+                  <i v-if="hackCheckState === '持平'" class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
+                  <i v-else-if="hackCheckState === '上升'" class="el-icon-top" style="color: #f56c6c; margin-left: 5px"></i>
+                  <i v-else class="el-icon-bottom" style="color: #67c23a; margin-left: 5px"></i>
+                  <div v-if="hackCheckState === '持平'" style="color: #1989fa; margin-left: 5px">{{ hackCheckState }}</div>
+                  <div v-else-if="hackCheckState === '上升'" style="color: #f56c6c; margin-left: 5px">{{ hackCheckState }}</div>
+                  <div v-else style="color: #67c23a; margin-left: 5px">{{ hackCheckState }}</div>
                 </div>
               </div>
               <div class="inner-text-1">
                 漏洞风险
                 <div class="inner-number" style="font-size: 30px; color: #526ecc; font-weight: bold">
-                  <count-to :start-val="0" :end-val="10" :duration="2600"/>
+                  <el-link style="font-size: 30px; font-weight: 500; color: #526ecc" @click="bugRiskLink">
+                    <count-to :start-val="0" :end-val="bugRiskNum" :duration="2600"/>
+                  </el-link>
                   <div style="font-size: 15px; color: black; font-weight: normal; align-self: center; margin-left: 5px">个</div>
                 </div>
-                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">较昨日 <i class="el-icon-bottom" style="color: #67c23a; margin-left: 5px"></i>
-                  <div style="color: #67c23a; margin-left: 5px">降低</div>
+                <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">
+                  较昨日
+                  <i v-if="bugRiskState === '持平'" class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
+                  <i v-else-if="bugRiskState === '上升'" class="el-icon-top" style="color: #f56c6c; margin-left: 5px"></i>
+                  <i v-else class="el-icon-bottom" style="color: #67c23a; margin-left: 5px"></i>
+                  <div v-if="bugRiskState === '持平'" style="color: #1989fa; margin-left: 5px">{{ bugRiskState }}</div>
+                  <div v-else-if="bugRiskState === '上升'" style="color: #f56c6c; margin-left: 5px">{{ bugRiskState }}</div>
+                  <div v-else style="color: #67c23a; margin-left: 5px">{{ bugRiskState }}</div>
                 </div>
               </div>
               <div class="inner-text-1">
                 行为基线
                 <div class="inner-number" style="font-size: 30px; color: #526ecc; font-weight: bold">
-                  <count-to :start-val="0" :end-val="9" :duration="2600"/>
+                  <el-link style="font-size: 30px; font-weight: 500; color: #526ecc" @click="behaviorLink">
+                    <count-to :start-val="0" :end-val="0" :duration="2600"/>
+                  </el-link>
                   <div style="font-size: 15px; color: black; font-weight: normal; align-self: center; margin-left: 5px">个</div>
                 </div>
                 <div style="font-size: 15px; padding-top: 10px; display: flex; justify-content: flex-start">较昨日 <i class="el-icon-right" style="color: #1989fa; margin-left: 5px"></i>
@@ -107,11 +141,20 @@
     <el-row :gutter="15">
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
+          <div style="display: flex; justify-content: space-between">
+            <div style="font-size: 20px">安全风险趋势</div>
+            <div>
+              <el-button size="small" type="primary" plain style="width: 100px">最近7天</el-button>
+              <el-button size="small" type="primary" plain style="width: 100px">最近30天</el-button>
+              <el-button size="small"><i class="el-icon-refresh"></i></el-button>
+            </div>
+          </div>
           <risk-safe/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
+          <div style="font-size: 20px; height: 32px">安全风险趋势</div>
           <risk-operation/>
         </div>
       </el-col>
@@ -125,11 +168,20 @@
 <!--      </el-col>-->
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
+          <div style="display: flex; justify-content: space-between">
+            <div style="font-size: 20px">入侵事件统计</div>
+            <div>
+              <el-button size="small" type="primary" plain style="width: 100px">最近7天</el-button>
+              <el-button size="small" type="primary" plain style="width: 100px">最近30天</el-button>
+              <el-button size="small"><i class="el-icon-refresh"></i></el-button>
+            </div>
+          </div>
           <pie-chart />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
+          <div style="font-size: 20px; height: 32px;">TOP5风险主机</div>
           <bar-chart />
         </div>
       </el-col>
@@ -154,7 +206,7 @@
               align="center"
               header-align="center">
               <template slot-scope="scope">
-                <el-link type="primary" :underline="false" @click="hackDeal(scope.$index, scope.row)">{{ scope.row.warning_name }}</el-link>
+                <el-link type="primary" :underline="false" @click="hackDetail(scope.$index, scope.row)">{{ scope.row.warning_name }}</el-link>
               </template>
             </el-table-column>
             <el-table-column
@@ -226,6 +278,67 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="处理告警事件"
+      :visible.sync="disposalVisible"
+      width="40%"
+    >
+      <el-table
+        :data="dealData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+        :cell-style="{ 'font-weight': 400 }"
+      >
+        <el-table-column
+          prop="warning_name"
+          width="200"
+          label="告警名称"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="status"
+          width="100"
+          label="状态"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="ip"
+          width="120"
+          label="IP"
+          align="center"
+          header-align="center"
+        />
+        <el-table-column
+          prop="content"
+          label="简述"
+          align="center"
+          header-align="center"
+          show-overflow-tooltip
+        />
+      </el-table>
+      <div style="margin-top: 25px">
+        处理方式：
+        <el-radio style="margin-left: 80px" v-model="radio" label="手动处理">手动处理</el-radio>
+        <el-radio v-model="radio" label="忽略">忽略</el-radio>
+      </div>
+      <div style="margin-top: 50px; display: flex; justify-content: flex-start">
+        <span style="width: 80px">备注：</span>
+        <el-input
+          type="textarea"
+          style="width: 80%"
+          :autosize="{ minRows: 4 }"
+          v-model="remark"
+          resize="none"
+        />
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="disposalVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="disposalCertain">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -247,8 +360,14 @@ export default {
     // PanelGroup
     CountTo
   },
+  created () {
+    this.getHostRiskData()
+  },
   data () {
     return {
+      disposalVisible: false,
+      remark: '',
+      radio: '手动处理',
       hackData: [
         {
           warning_name: '账户暴力破解',
@@ -300,11 +419,25 @@ export default {
           status: '未处理',
           disposal: null
         }
-      ]
+      ],
+      dealData: [{
+        warning_name: '账户暴力破解',
+        status: '未处理',
+        ip: 'xxx.xxx.xxx.xxx',
+        content: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+      }],
+      assetRiskNum: 0,
+      assetRiskState: '',
+      bugRiskNum: 0,
+      bugRiskState: '',
+      baseCheckNum: 0,
+      baseCheckState: '',
+      hackCheckNum: 0,
+      hackCheckState: ''
     }
   },
   methods: {
-    hackDeal (index, row) {
+    hackDetail (index, row) {
       const h = this.$createElement
       this.$msgbox({
         title: row.warning_name,
@@ -336,15 +469,40 @@ export default {
           h('br'),
           h('p', null, [
             h('span', null, '状态： '),
-            h('span', null, row.status ? '已处理' : '未处理')
+            h('span', null, row.status)
           ])
         ]),
         confirmButtonText: '处理'
       }).then(action => {
-        this.$message({
-          type: 'info',
-          message: row.server_type
-        })
+        // this.$message({
+        //   type: 'info',
+        //   message: row.server_type
+        // })
+        this.disposalVisible = true
+      })
+    },
+    handleDisposal (index, row) {
+      this.disposalVisible = true
+    },
+    disposalCertain () {
+      console.log(this.radio)
+      console.log(this.remark)
+      this.disposalVisible = false
+    },
+    getHostRiskData () {
+      this.$http.get('http://172.16.30.78:8019/host_risk_total').then(res => {
+        if (res.status === 200) {
+          const getData = res.data
+          // console.log(getData)
+          this.assetRiskNum = getData.riskhost_count
+          this.assetRiskState = getData.rh_state
+          this.bugRiskNum = getData.gscan_count
+          this.bugRiskState = getData.gs_state
+          this.baseCheckNum = getData.baseline_count
+          this.baseCheckState = getData.bl_state
+          this.hackCheckNum = getData.vuln_count
+          this.hackCheckState = getData.vuln_state
+        }
       })
     },
     vmNumLink () {
@@ -370,6 +528,30 @@ export default {
       // console.log(this.$store.state.activeTab)
       this.$emit('getActivePath', '/terminal')
       this.$emit('getCurrentBread', '终端管理')
+    },
+    assetRiskLink () {
+      this.$router.push('/thread')
+      this.$store.dispatch('updateRiskTabAsync', '资产管理')
+      this.$emit('getActivePath', '/thread')
+      this.$emit('getCurrentBread', '风险预防')
+    },
+    baseCheckLink () {
+      this.$router.push('/thread')
+      this.$store.dispatch('updateRiskTabAsync', '基线检查')
+      this.$emit('getActivePath', '/thread')
+      this.$emit('getCurrentBread', '风险预防')
+    },
+    hackCheckLink () {
+      this.$router.push('/thread')
+      this.$store.dispatch('updateRiskTabAsync', '入侵检测')
+      this.$emit('getActivePath', '/thread')
+      this.$emit('getCurrentBread', '风险预防')
+    },
+    bugRiskLink () {
+      this.$router.push('/thread')
+      this.$store.dispatch('updateRiskTabAsync', '漏洞管理')
+      this.$emit('getActivePath', '/thread')
+      this.$emit('getCurrentBread', '风险预防')
     }
   }
 }
@@ -388,14 +570,14 @@ export default {
     margin-bottom: 15px;
     //text-align: center;
     height: 200px;
-    font-size: 25px;
+    font-size: 20px;
     //font-weight: bold;
     .inner-panel-1{
       display: flex;
       justify-content: space-between;
       padding: 16px;
       .inner-text-1 {
-        font-size: 20px;
+        font-size: 18px;
         padding-top: 20px;
         font-weight: 300;
       }
@@ -405,7 +587,7 @@ export default {
       justify-content: space-around;
       padding: 16px;
       .inner-text-2 {
-        font-size: 20px;
+        font-size: 18px;
         padding-top: 20px;
         font-weight: 300;
       }
@@ -427,5 +609,29 @@ export default {
   .chart-wrapper {
     padding: 8px;
   }
+}
+
+.el-button--small, .el-button--small.is-round {
+  padding: 9px 10px;
+  border: 1px solid gray
+}
+
+//.el-button--primary.is-plain.is-active,
+//.el-button--primary.is-plain:active {
+//  background: #20B2AA;
+//  border-color: #20B2AA;
+//  color: #fff;
+//}
+
+.el-button--primary.is-plain:focus,
+.el-button--primary.is-plain:hover {
+  background: #526ecc;
+  border-color: #526ecc;
+  //color: #fff;
+}
+
+.el-button--primary.is-plain {
+  color: #526ecc;
+  border-color: #526ecc;
 }
 </style>

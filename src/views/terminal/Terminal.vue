@@ -266,6 +266,104 @@
       <div class="search-main">
         <div>
           <el-button type="primary" size="small" @click.native.prevent="createGroup">创建服务器组</el-button>
+          <el-dialog
+            title="创建服务器组"
+            width="60%"
+            :visible.sync="createVisible"
+            :close-on-click-modal="false"
+            :show-close = "false"
+            :close-on-press-escape = "false"
+          >
+            <div>
+              <el-form :model="ruleGroup" :rules="rules" ref="ruleGroup" label-width="150px">
+                <el-form-item label="服务器组名称" prop="name">
+                  <el-input v-model="ruleGroup.name" size="small" style="width: 200px"></el-input>
+                </el-form-item>
+              </el-form>
+            </div>
+            <div class="table-box" style="display: flex; justify-content: space-around">
+              <div class="table-container">
+<!--                <el-scrollbar style="height: 100%">-->
+                <el-table
+                  ref="leftTab"
+                  :data="leftTableData"
+                  tooltip-effect="dark"
+                  style="width: 100%; border: 1px solid lightgray"
+                  height="300"
+                  :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+                  @selection-change="tableTransfer"
+                >
+                  <el-table-column
+                    type="selection"
+                    :reserve-selection="true"
+                    width="45"
+                    align="center"
+                    header-align="center"
+                  />
+                  <el-table-column
+                    prop="server_name"
+                    label="服务器名称"
+                    width="150"
+                    align="center"
+                    header-align="center"
+                    show-overflow-tooltip
+                  />
+                  <el-table-column
+                    prop="ip"
+                    label="IP"
+                    width="120"
+                    align="center"
+                    header-align="center"
+                  />
+                  <el-table-column
+                    prop="os"
+                    label="操作系统"
+                    width="100"
+                    align="center"
+                    header-align="center"
+                  />
+                </el-table>
+<!--                </el-scrollbar>-->
+              </div>
+              <div class="table-container">
+                <el-table
+                  ref="rightTab"
+                  :data="rightTableData"
+                  tooltip-effect="dark"
+                  style="width: 100%; border: 1px solid lightgray"
+                  height="300"
+                  :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+                >
+                  <el-table-column
+                    prop="server_name"
+                    label="服务器名称"
+                    width="150"
+                    align="center"
+                    header-align="center"
+                    show-overflow-tooltip
+                  />
+                  <el-table-column
+                    prop="ip"
+                    label="IP"
+                    width="120"
+                    align="center"
+                    header-align="center"
+                  />
+                  <el-table-column
+                    prop="os"
+                    label="操作系统"
+                    width="100"
+                    align="center"
+                    header-align="center"
+                  />
+                </el-table>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button size="small" type="primary" :disabled="!rightTableData.length" @click="createCertain('ruleGroup')">确 定</el-button>
+              <el-button size="small" @click="createCancle('ruleGroup')">取 消</el-button>
+            </div>
+          </el-dialog>
         </div>
         <div class="search-input">
           <div class="input-select">
@@ -539,7 +637,55 @@ export default {
       value: '服务器名称',
       input: '',
       dialogVisible: false,
-      detailVisible: false
+      detailVisible: false,
+      createVisible: false,
+      ruleGroup: {
+        name: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入名称', trigger: 'blur' }
+        ]
+      },
+      rightTableData: [],
+      leftTableData: [
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'Linux'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'CentOS'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'Linux'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'Redhat'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'Linux'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'CentOS'
+        },
+        {
+          server_name: 'xxxxxxxxxxxxxxxxxxxxxxx',
+          ip: 'xxx.xxx.xxx.xxx',
+          os: 'Linux'
+        }
+      ],
+      creatSelection: []
       // op: true
     }
   },
@@ -561,6 +707,23 @@ export default {
     },
     createGroup () {
       console.log('create')
+      this.createVisible = true
+    },
+    tableTransfer (val) {
+      console.log(val)
+      this.rightTableData = val
+    },
+    createCancle (val) {
+      this.createVisible = false
+      this.$refs[val].resetFields()
+      this.$refs.leftTab.clearSelection()
+      this.rightTableData = []
+    },
+    createCertain (val) {
+      this.createVisible = false
+      this.$refs[val].resetFields()
+      this.$refs.leftTab.clearSelection()
+      this.rightTableData = []
     }
   }
 }

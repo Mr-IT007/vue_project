@@ -93,25 +93,25 @@ export default {
             }
           }
         },
-        title: {
-          text: '安全风险趋势',
-          textStyle: {
-            fontSize: 25,
-            color: 'black'
-          }
-        },
-        toolbox: {
-          show: true,
-          feature: {
-            magicType: {
-              type: ['line', 'bar']
-            }
-          }
-        },
+        // title: {
+        //   text: '安全风险趋势',
+        //   textStyle: {
+        //     fontSize: 25,
+        //     color: 'black'
+        //   }
+        // },
+        // toolbox: {
+        //   show: true,
+        //   feature: {
+        //     magicType: {
+        //       type: ['line', 'bar']
+        //     }
+        //   }
+        // },
         grid: {
           left: 10,
           right: 10,
-          top: '20%',
+          top: '10%',
           containLabel: true
         },
         tooltip: {

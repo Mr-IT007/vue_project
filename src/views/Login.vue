@@ -69,7 +69,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          const path = '/login'
+          const path = 'http://127.0.0.1:5000/api/v1/login'
           const payload = {
             account: this.loginForm.username,
             password: this.loginForm.password

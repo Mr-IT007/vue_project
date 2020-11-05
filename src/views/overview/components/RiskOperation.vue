@@ -96,13 +96,13 @@ export default {
             }
           }
         },
-        title: {
-          text: '安全运营趋势',
-          textStyle: {
-            fontSize: 25,
-            color: 'black'
-          }
-        },
+        // title: {
+        //   text: '安全运营趋势',
+        //   textStyle: {
+        //     fontSize: 20,
+        //     color: 'black'
+        //   }
+        // },
         toolbox: {
           show: true,
           feature: {
@@ -114,7 +114,7 @@ export default {
         grid: {
           left: 10,
           right: 10,
-          top: '20%',
+          top: '10%',
           containLabel: true
         },
         tooltip: {

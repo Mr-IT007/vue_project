@@ -66,9 +66,11 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-header>
-        <el-main>
-          <router-view @getActivePath="getPath" @getCurrentBread="getBread"/>
-        </el-main>
+        <el-scrollbar style="height: 100%; background-color: #eaedf1">
+          <el-main>
+            <router-view @getActivePath="getPath" @getCurrentBread="getBread"/>
+          </el-main>
+        </el-scrollbar>
       </el-container>
     </el-container>
 </template>
@@ -116,7 +118,7 @@ export default {
       this.activePath = '/overview'
     },
     getMenuData () {
-      this.$http.get('/menu').then(res => {
+      this.$http.get('http://127.0.0.1:5000/api/v1/menu').then(res => {
         if (res.status === 200) {
           const resData = res.data
           // console.log(resData)

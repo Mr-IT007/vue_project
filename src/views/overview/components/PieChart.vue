@@ -49,13 +49,13 @@ export default {
           trigger: 'item',
           formatter: '{b}: {c} ({d}%)'
         },
-        title: {
-          text: '入侵事件统计',
-          textStyle: {
-            fontSize: 25,
-            color: 'black'
-          }
-        },
+        // title: {
+        //   text: '入侵事件统计',
+        //   textStyle: {
+        //     fontSize: 25,
+        //     color: 'black'
+        //   }
+        // },
         legend: {
           orient: 'vertical',
           icon: 'circle',

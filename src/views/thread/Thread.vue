@@ -814,7 +814,7 @@ export default {
       portValue: '所有端口类型',
       urgLinuxValue: '所有紧急度',
       dealValue: '未处理',
-      activeName: '入侵检测',
+      activeName: this.$store.state.activeRiskTab,
       activeBug: 'Linux软件漏洞',
       innerActiveName: '开放端口',
       activeBase: '系统风险',
